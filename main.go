@@ -96,6 +96,8 @@ func main() {
 func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 	var err error
 
+	log.Println("Processing /GetAccountByAccountNumber...")
+
 	// Retrieve request body
 	var req AccountByAccountNumberRequest
 	if err = json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -107,12 +109,13 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 
 	var resp = Account{ID: "1234", Name: "Test"}
 
+	log.Println("Sending reply from /GetAccountByAccountNumber...")
+
+	// Write reply
 	var b []byte
 	if b, err = json.Marshal(resp); err != nil {
 		panic(err)
 	}
-
-	// Write reply
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	if _, err = w.Write(b); err != nil {
