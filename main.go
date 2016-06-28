@@ -107,7 +107,27 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var resp = Account{ID: "1234", Name: "Test"}
+	var resp = Account{
+		ID:     "1234",
+		Name:   "Test",
+		Number: "abc123",
+		Addresses: &Addresses{
+			Address: []Address{
+				Address{City: "KL", Country: "MY", Line1: "Jalan", PostalCode: "56000", State: "FT", Type: "X"},
+			},
+		},
+		PhoneNumbers: &PhoneNumbers{
+			PhoneNumbers: []PhoneNumber{
+				PhoneNumber{Number: "78901234", PhoneType: 9},
+			},
+		},
+		EmailAddresses: &EmailAddresses{
+			EmailAddress: []EmailAddress{
+				EmailAddress{EmailAddress: "szemin.ng@inin.com", EmailType: 8},
+			},
+		},
+		CustomAttribute: "Custom",
+	}
 
 	log.Println("Sending reply from /GetAccountByAccountNumber...")
 
