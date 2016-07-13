@@ -148,10 +148,7 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 		`	"Account.EmailAddresses.EmailAddress.EmailType": ["type1", "type2"],` +
 		`	"Account.CustomAttribute": "custom"}`
 	*/
-	var a string = `{"Id": "123",` +
-		`	"Name": "asd",` +
-		`	"Number": "123123",` +
-		`	"CustomAttribute": "custom"}`
+	var a = `{"Id": "75", "Address": {"City": "Indianapolis", "State": "IN", "PostalCode": "46278", "Line1": "7601 Interactive Way"}, "Name": "Inin", "Number": "75", "PhoneNumbers":{"PhoneNumber":[{"Number":"1-800-267-1364","PhoneType":1}]}}`
 
 	// Write reply
 	/*	var b []byte
