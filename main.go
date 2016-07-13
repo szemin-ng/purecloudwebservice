@@ -131,7 +131,7 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("Sending reply from /GetAccountByAccountNumber...")
 
-	var a string = `{"Account.Id": "123",` +
+	/*	var a string = `{"Account.Id": "123",` +
 		`	"Account.Name": "asd",` +
 		`	"Account.Number": "123123",` +
 		`	"Account.Addresses.Address.City": [ "City1", "City2" ],` +
@@ -147,6 +147,11 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 		`	"Account.EmailAddresses.EmailAddress.EmailAddress": ["Email1","Email2"],` +
 		`	"Account.EmailAddresses.EmailAddress.EmailType": ["type1", "type2"],` +
 		`	"Account.CustomAttribute": "custom"}`
+	*/
+	var a string = `{"Id": "123",` +
+		`	"Name": "asd",` +
+		`	"Number": "123123",` +
+		`	"CustomAttribute": "custom"}`
 
 	// Write reply
 	/*	var b []byte
