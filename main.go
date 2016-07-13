@@ -141,8 +141,8 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 			Number: "123",
 			Addresses: &Addresses{
 				Address: []Address{
-					Address{City: "Kuala Lumpur", Country: "Malaysia", Line1: "Unit 9.1, Level 9, Menara Prestige", Line2: "No. 1, Jalan Pinang", Line3: "asd", PostalCode: "50450", State: "FT", Type: "MY"},
-					Address{City: "Indianapolis", Country: "United States", Line1: "7601 Interactive Way", Line2: "asd", PostalCode: "46278", State: "IN", Type: "US"},
+					Address{City: "Kuala Lumpur", Country: "Malaysia", Line1: "Unit 9.1, Level 9, Menara Prestige", Line2: "No. 1, Jalan Pinang", PostalCode: "50450", State: "FT", Type: "MY"},
+					Address{City: "Indianapolis", Country: "United States", Line1: "7601 Interactive Way", PostalCode: "46278", State: "IN", Type: "US"},
 				},
 			},
 			PhoneNumbers: &PhoneNumbers{
