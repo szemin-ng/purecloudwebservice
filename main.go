@@ -137,46 +137,28 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 	var resp = Account{
 		Account: AccountDetails{
 			ID:     "1234",
-			Name:   "Test",
-			Number: "abc123",
+			Name:   "Ng Sze Min",
+			Number: "8371829171-82172",
 			Addresses: &Addresses{
 				Address: []Address{
-					Address{City: "KL", Country: "MY", Line1: "Jalan", Line2: "Jiran", Line3: "9", PostalCode: "56000", State: "FT", Type: "X"},
+					Address{City: "Kuala Lumpur", Country: "Malaysia", Line1: "Unit 9.1, Level 9, Menara Prestige", Line2: "No. 1, Jalan Pinang", PostalCode: "50450", State: "FT", Type: "MY"},
+					Address{City: "Indianapolis", Country: "United States", Line1: "7601 Interactive Way", PostalCode: "46278", State: "IN", Type: "US"},
 				},
 			},
 			PhoneNumbers: &PhoneNumbers{
 				PhoneNumbers: []PhoneNumber{
-					PhoneNumber{Number: "78901234", PhoneType: 9},
+					PhoneNumber{Number: "+60327763333", PhoneType: 1},
+					PhoneNumber{Number: "+18002671364", PhoneType: 2},
 				},
 			},
 			EmailAddresses: &EmailAddresses{
 				EmailAddress: []EmailAddress{
-					EmailAddress{EmailAddress: "szemin.ng@inin.com", EmailType: 8},
+					EmailAddress{EmailAddress: "szemin.ng@inin.com", EmailType: 1},
 				},
 			},
-			CustomAttribute: "Custom",
+			CustomAttribute: "Custom data here",
 		},
 	}
-
-	/*	var resp = A{
-		Account: AD{
-			ID:                "89",
-			Name:              "Jason",
-			Number:            "123456",
-			AddressLine1:      []string{"Unit 9.1, Level 9, Menara Prestige"},
-			AddressLine2:      []string{"No. 1, Jalan Pinang"},
-			AddressCity:       []string{"Kuala Lumpur"},
-			AddressCountry:    []string{"Malaysia"},
-			AddressPostalCode: []string{"50450"},
-			AddressState:      []string{"WP"},
-			AddressType:       []string{"1"},
-			PhoneNumber:       []string{"+60122917823"},
-			PhoneType:         []string{"1"},
-			EmailAddress:      []string{"szemin.ng@inin.com"},
-			EmailType:         []string{"1"},
-			CustomAttribute:   "Custom",
-		},
-	}*/
 
 	log.Println("Sending reply from /GetAccountByAccountNumber...")
 
@@ -187,14 +169,9 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-
-	var n int
-	if n, err = w.Write(b); err != nil {
+	if _, err = w.Write(b); err != nil {
 		log.Printf("Failed to write: %s\n", err)
 	}
-
-	log.Printf("Wrote %d bytes\n", n)
-
 }
 
 func getAccountByContactId(w http.ResponseWriter, r *http.Request) {
