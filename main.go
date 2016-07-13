@@ -156,10 +156,15 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}*/
 	w.Header().Set("Content-Type", "application/json")
-	if _, err = w.Write([]byte(a)); err != nil {
+	w.WriteHeader(http.StatusOK)
+
+	var n int
+	if n, err = w.Write([]byte(a)); err != nil {
 		log.Printf("Failed to write: %s\n", err)
 	}
-	w.WriteHeader(http.StatusOK)
+
+	log.Printf("Wrote %d bytes\n", n)
+
 }
 
 func getAccountByContactId(w http.ResponseWriter, r *http.Request) {
