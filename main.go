@@ -131,7 +131,8 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("Sending reply from /GetAccountByAccountNumber...")
 
-	/*	var a string = `{"Account.Id": "123",` +
+	var a string = `{"Account":{` +
+		`"Account.Id": "123",` +
 		`	"Account.Name": "asd",` +
 		`	"Account.Number": "123123",` +
 		`	"Account.Addresses.Address.City": [ "City1", "City2" ],` +
@@ -146,9 +147,9 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 		`	"Account.PhoneNumbers.PhoneNumber.PhoneType": ["Type1", "Type2"],` +
 		`	"Account.EmailAddresses.EmailAddress.EmailAddress": ["Email1","Email2"],` +
 		`	"Account.EmailAddresses.EmailAddress.EmailType": ["type1", "type2"],` +
-		`	"Account.CustomAttribute": "custom"}`
-	*/
-	var a = `{"Account":{"Id": "75", "Address": {"City": "Indianapolis", "State": "IN", "PostalCode": "46278", "Line1": "7601 Interactive Way"}, "Name": "Inin", "Number": "75", "PhoneNumbers":{"PhoneNumber":[{"Number":"1-800-267-1364","PhoneType":1}]}}}`
+		`	"Account.CustomAttribute": "custom"}}`
+
+		//	var a = `{"Account":{"Id": "75", "Address": {"City": "Indianapolis", "State": "IN", "PostalCode": "46278", "Line1": "7601 Interactive Way"}, "Name": "Inin", "Number": "75", "PhoneNumbers":{"PhoneNumber":[{"Number":"1-800-267-1364","PhoneType":1}]}}}`
 
 	// Write reply
 	/*	var b []byte
