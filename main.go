@@ -107,13 +107,13 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var resp = Account{
+	/*	var resp = Account{
 		ID:     "1234",
 		Name:   "Test",
 		Number: "abc123",
 		Addresses: &Addresses{
 			Address: []Address{
-				Address{City: "KL", Country: "MY", Line1: "Jalan", PostalCode: "56000", State: "FT", Type: "X"},
+				Address{City: "KL", Country: "MY", Line1: "Jalan", Line2: "Jiran", Line3: "9", PostalCode: "56000", State: "FT", Type: "X"},
 			},
 		},
 		PhoneNumbers: &PhoneNumbers{
@@ -127,18 +127,35 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 			},
 		},
 		CustomAttribute: "Custom",
-	}
+	}*/
 
 	log.Println("Sending reply from /GetAccountByAccountNumber...")
 
+	var a string = `{"Account.Id": "123",` +
+		`	"Account.Name": "asd",` +
+		`	"Account.Number": "123123",` +
+		`	"Account.Addresses.Address.City": [ "City1", "City2" ],` +
+		`	"Account.Addresses.Address.Country": ["Address1", "Address2"],` +
+		`	"Account.Addresses.Address.Line1": ["Line1", "Line2"],` +
+		`	"Account.Addresses.Address.Line2": [ "Line1","Line2"],` +
+		`	"Account.Addresses.Address.Line3": ["Line1", "Line2"],` +
+		`	"Account.Addresses.Address.PostalCode": ["Post1","Post2"],` +
+		`	"Account.Addresses.Address.State": ["State1","State2"],` +
+		`	"Account.Addresses.Address.Type": ["Type1", "Type2"],` +
+		`	"Account.PhoneNumbers.PhoneNumber.Number": ["Num1", "Num2"],` +
+		`	"Account.PhoneNumbers.PhoneNumber.PhoneType": ["Type1", "Type2"],` +
+		`	"Account.EmailAddresses.EmailAddress.EmailAddress": ["Email1","Email2"],` +
+		`	"Account.EmailAddresses.EmailAddress.EmailType": ["type1", "type2"],` +
+		`	"Account.CustomAttribute": "custom"}`
+
 	// Write reply
-	var b []byte
-	if b, err = json.Marshal(resp); err != nil {
-		panic(err)
-	}
+	/*	var b []byte
+		if b, err = json.Marshal(resp); err != nil {
+			panic(err)
+		}*/
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	if _, err = w.Write(b); err != nil {
+	if _, err = w.Write([]byte(a)); err != nil {
 		log.Printf("Failed to write: %s\n", err)
 	}
 }
