@@ -134,7 +134,7 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	/*	var resp = Account{
+	var resp = Account{
 		Account: AccountDetails{
 			ID:     "1234",
 			Name:   "Test",
@@ -156,9 +156,9 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 			},
 			CustomAttribute: "Custom",
 		},
-	}*/
+	}
 
-	var resp = A{
+	/*	var resp = A{
 		Account: AD{
 			ID:                "89",
 			Name:              "Jason",
@@ -176,29 +176,9 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 			EmailType:         []string{"1"},
 			CustomAttribute:   "Custom",
 		},
-	}
+	}*/
 
 	log.Println("Sending reply from /GetAccountByAccountNumber...")
-
-	/*	var a string = `{"Account":{` +
-		`"Account.Id": "123",` +
-		`	"Account.Name": "asd",` +
-		`	"Account.Number": "123123",` +
-		`	"Account.Addresses.Address.City": [ "City1", "City2" ],` +
-		`	"Account.Addresses.Address.Country": ["Address1", "Address2"],` +
-		`	"Account.Addresses.Address.Line1": ["Line1", "Line2"],` +
-		`	"Account.Addresses.Address.Line2": [ "Line1","Line2"],` +
-		`	"Account.Addresses.Address.Line3": ["Line1", "Line2"],` +
-		`	"Account.Addresses.Address.PostalCode": ["Post1","Post2"],` +
-		`	"Account.Addresses.Address.State": ["State1","State2"],` +
-		`	"Account.Addresses.Address.Type": ["Type1", "Type2"],` +
-		`	"Account.PhoneNumbers.PhoneNumber.Number": ["Num1", "Num2"],` +
-		`	"Account.PhoneNumbers.PhoneNumber.PhoneType": ["Type1", "Type2"],` +
-		`	"Account.EmailAddresses.EmailAddress.EmailAddress": ["Email1","Email2"],` +
-		`	"Account.EmailAddresses.EmailAddress.EmailType": ["type1", "type2"],` +
-		`	"Account.CustomAttribute": "custom"}}`
-	*/
-	//	var a = `{"Account":{"Id": "75", "Address": {"City": "Indianapolis", "State": "IN", "PostalCode": "46278", "Line1": "7601 Interactive Way"}, "Name": "Inin", "Number": "75", "PhoneNumbers":{"PhoneNumber":[{"Number":"1-800-267-1364","PhoneType":1}]}}}`
 
 	// Write reply
 	var b []byte
