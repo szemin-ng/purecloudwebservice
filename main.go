@@ -139,9 +139,9 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 
 	var resp = Account{
 		Account: AccountDetails{
-			ID:     "1234",
+			ID:     "123",
 			Name:   "Ng Sze Min",
-			Number: "8371829171-82172",
+			Number: "123",
 			Addresses: &Addresses{
 				Address: []Address{
 					Address{City: "Kuala Lumpur", Country: "Malaysia", Line1: "Unit 9.1, Level 9, Menara Prestige", Line2: "No. 1, Jalan Pinang", Line3: "asd", PostalCode: "50450", State: "FT", Type: "MY"},
