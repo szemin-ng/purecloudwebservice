@@ -11,7 +11,34 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type A struct {
+	Account AD `json:"Account"`
+}
+
+type AD struct {
+	ID                string   `json:"Account.Id,omitempty"`
+	Name              string   `json:"Account.Name,omitempty"`
+	Number            string   `json:"Account.Number,omitempty"`
+	AddressCity       []string `json:"Account.Addresses.Address.City,omitempty"`
+	AddressCountry    []string `json:"Account.Addresses.Address.Country,omitempty"`
+	AddressLine1      []string `json:"Account.Addresses.Address.Line1,omitempty"`
+	AddressLine2      []string `json:"Account.Addresses.Address.Line2,omitempty"`
+	AddressLine3      []string `json:"Account.Addresses.Address.Line3,omitempty"`
+	AddressPostalCode []string `json:"Account.Addresses.Address.PostalCode,omitempty"`
+	AddressState      []string `json:"Account.Addresses.Address.State,omitempty"`
+	AddressType       []string `json:"Account.Addresses.Address.Type,omitempty"`
+	PhoneNumber       []string `json:"Account.PhoneNumbers.PhoneNumber.Number,omitempty"`
+	PhoneType         []string `json:"Account.PhoneNumbers.PhoneNumber.PhoneType,omitempty"`
+	EmailAddress      []string `json:"Account.EmailAddresses.EmailAddress.EmailAddress,omitempty"`
+	EmailType         []string `json:"Account.EmailAddresses.EmailAddress.EmailType,omitempty"`
+	CustomAttribute   string   `json:"Account.CustomAttribute,omitempty"`
+}
+
 type Account struct {
+	Account AccountDetails `json:"Account"`
+}
+
+type AccountDetails struct {
 	ID              string          `json:"Id,omitempty"`
 	Name            string          `json:"Name,omitempty"`
 	Number          string          `json:"Number,omitempty"`
@@ -108,30 +135,52 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 	}
 
 	/*	var resp = Account{
-		ID:     "1234",
-		Name:   "Test",
-		Number: "abc123",
-		Addresses: &Addresses{
-			Address: []Address{
-				Address{City: "KL", Country: "MY", Line1: "Jalan", Line2: "Jiran", Line3: "9", PostalCode: "56000", State: "FT", Type: "X"},
+		Account: AccountDetails{
+			ID:     "1234",
+			Name:   "Test",
+			Number: "abc123",
+			Addresses: &Addresses{
+				Address: []Address{
+					Address{City: "KL", Country: "MY", Line1: "Jalan", Line2: "Jiran", Line3: "9", PostalCode: "56000", State: "FT", Type: "X"},
+				},
 			},
-		},
-		PhoneNumbers: &PhoneNumbers{
-			PhoneNumbers: []PhoneNumber{
-				PhoneNumber{Number: "78901234", PhoneType: 9},
+			PhoneNumbers: &PhoneNumbers{
+				PhoneNumbers: []PhoneNumber{
+					PhoneNumber{Number: "78901234", PhoneType: 9},
+				},
 			},
-		},
-		EmailAddresses: &EmailAddresses{
-			EmailAddress: []EmailAddress{
-				EmailAddress{EmailAddress: "szemin.ng@inin.com", EmailType: 8},
+			EmailAddresses: &EmailAddresses{
+				EmailAddress: []EmailAddress{
+					EmailAddress{EmailAddress: "szemin.ng@inin.com", EmailType: 8},
+				},
 			},
+			CustomAttribute: "Custom",
 		},
-		CustomAttribute: "Custom",
 	}*/
+
+	var resp = A{
+		Account: AD{
+			ID:                "89",
+			Name:              "Jason",
+			Number:            "123456",
+			AddressLine1:      []string{"Unit 9.1, Level 9, Menara Prestige"},
+			AddressLine2:      []string{"No. 1, Jalan Pinang"},
+			AddressCity:       []string{"Kuala Lumpur"},
+			AddressCountry:    []string{"Malaysia"},
+			AddressPostalCode: []string{"50450"},
+			AddressState:      []string{"WP"},
+			AddressType:       []string{"1"},
+			PhoneNumber:       []string{"+60122917823"},
+			PhoneType:         []string{"1"},
+			EmailAddress:      []string{"szemin.ng@inin.com"},
+			EmailType:         []string{"1"},
+			CustomAttribute:   "Custom",
+		},
+	}
 
 	log.Println("Sending reply from /GetAccountByAccountNumber...")
 
-	var a string = `{"Account":{` +
+	/*	var a string = `{"Account":{` +
 		`"Account.Id": "123",` +
 		`	"Account.Name": "asd",` +
 		`	"Account.Number": "123123",` +
@@ -148,19 +197,19 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 		`	"Account.EmailAddresses.EmailAddress.EmailAddress": ["Email1","Email2"],` +
 		`	"Account.EmailAddresses.EmailAddress.EmailType": ["type1", "type2"],` +
 		`	"Account.CustomAttribute": "custom"}}`
-
-		//	var a = `{"Account":{"Id": "75", "Address": {"City": "Indianapolis", "State": "IN", "PostalCode": "46278", "Line1": "7601 Interactive Way"}, "Name": "Inin", "Number": "75", "PhoneNumbers":{"PhoneNumber":[{"Number":"1-800-267-1364","PhoneType":1}]}}}`
+	*/
+	//	var a = `{"Account":{"Id": "75", "Address": {"City": "Indianapolis", "State": "IN", "PostalCode": "46278", "Line1": "7601 Interactive Way"}, "Name": "Inin", "Number": "75", "PhoneNumbers":{"PhoneNumber":[{"Number":"1-800-267-1364","PhoneType":1}]}}}`
 
 	// Write reply
-	/*	var b []byte
-		if b, err = json.Marshal(resp); err != nil {
-			panic(err)
-		}*/
+	var b []byte
+	if b, err = json.Marshal(resp); err != nil {
+		panic(err)
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
 	var n int
-	if n, err = w.Write([]byte(a)); err != nil {
+	if n, err = w.Write(b); err != nil {
 		log.Printf("Failed to write: %s\n", err)
 	}
 
