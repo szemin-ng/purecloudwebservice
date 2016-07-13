@@ -134,9 +134,6 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//					Address{City: "Indianapolis", Country: "United States", Line1: "7601 Interactive Way", PostalCode: "46278", State: "IN", Type: "US"},
-	//					PhoneNumber{Number: "+18002671364", PhoneType: 2},
-
 	var resp = Account{
 		Account: AccountDetails{
 			ID:     "123",
@@ -145,11 +142,13 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 			Addresses: &Addresses{
 				Address: []Address{
 					Address{City: "Kuala Lumpur", Country: "Malaysia", Line1: "Unit 9.1, Level 9, Menara Prestige", Line2: "No. 1, Jalan Pinang", Line3: "asd", PostalCode: "50450", State: "FT", Type: "MY"},
+					Address{City: "Indianapolis", Country: "United States", Line1: "7601 Interactive Way", PostalCode: "46278", State: "IN", Type: "US"},
 				},
 			},
 			PhoneNumbers: &PhoneNumbers{
 				PhoneNumbers: []PhoneNumber{
 					PhoneNumber{Number: "+60327763333", PhoneType: 1},
+					PhoneNumber{Number: "+18002671364", PhoneType: 2},
 				},
 			},
 			EmailAddresses: &EmailAddresses{
