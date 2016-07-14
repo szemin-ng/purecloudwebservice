@@ -11,34 +11,13 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type A struct {
-	Account AD `json:"Account"`
-}
-
-type AD struct {
-	ID                string   `json:"Account.Id,omitempty"`
-	Name              string   `json:"Account.Name,omitempty"`
-	Number            string   `json:"Account.Number,omitempty"`
-	AddressCity       []string `json:"Account.Addresses.Address.City,omitempty"`
-	AddressCountry    []string `json:"Account.Addresses.Address.Country,omitempty"`
-	AddressLine1      []string `json:"Account.Addresses.Address.Line1,omitempty"`
-	AddressLine2      []string `json:"Account.Addresses.Address.Line2,omitempty"`
-	AddressLine3      []string `json:"Account.Addresses.Address.Line3,omitempty"`
-	AddressPostalCode []string `json:"Account.Addresses.Address.PostalCode,omitempty"`
-	AddressState      []string `json:"Account.Addresses.Address.State,omitempty"`
-	AddressType       []string `json:"Account.Addresses.Address.Type,omitempty"`
-	PhoneNumber       []string `json:"Account.PhoneNumbers.PhoneNumber.Number,omitempty"`
-	PhoneType         []string `json:"Account.PhoneNumbers.PhoneNumber.PhoneType,omitempty"`
-	EmailAddress      []string `json:"Account.EmailAddresses.EmailAddress.EmailAddress,omitempty"`
-	EmailType         []string `json:"Account.EmailAddresses.EmailAddress.EmailType,omitempty"`
-	CustomAttribute   string   `json:"Account.CustomAttribute,omitempty"`
+// AccountResponse contains account information sent back to PureCloud Web Services Data Dip Connector.
+// It follows the format in https://developer.mypurecloud.com/api/webservice-datadip/service-contracts.html
+type AccountResponse struct {
+	Account Account `json:"Account"`
 }
 
 type Account struct {
-	Account AccountDetails `json:"Account"`
-}
-
-type AccountDetails struct {
 	ID              string          `json:"Id,omitempty"`
 	Name            string          `json:"Name,omitempty"`
 	Number          string          `json:"Number,omitempty"`
@@ -81,13 +60,11 @@ type PhoneNumber struct {
 	PhoneType float32 `json:"PhoneType,omitempty"`
 }
 
+// AccountByAccountNumberRequest is the request sent from PureCloud Web Services Data Dip Connector to this app to retrieve
+// account information using an account number to query
+// It follows the format in https://developer.mypurecloud.com/api/webservice-datadip/service-contracts.html
 type AccountByAccountNumberRequest struct {
 	AccountNumber   string `json:"AccountNumber"`
-	CustomAttribute string `json:"CustomAttribute,omitempty"`
-}
-
-type AccountByContactIDRequest struct {
-	ContactID       string `json:"ContactId"`
 	CustomAttribute string `json:"CustomAttribute,omitempty"`
 }
 
@@ -98,13 +75,14 @@ func main() {
 	}
 	log.Printf("Listening on port %s\n", port)
 
+	// Setup HTTP server
 	var r *mux.Router
 	r = mux.NewRouter()
 	r.HandleFunc("/GetAccountByAccountNumber", getAccountByAccountNumber).Methods("POST")
-	r.HandleFunc("/GetAccountByContactId", getAccountByContactId).Methods("POST")
+	r.HandleFunc("/GetAccountByContactId", getAccountByContactID).Methods("POST")
 	r.HandleFunc("/GetAccountByPhoneNumber", getAccountByPhoneNumber).Methods("POST")
 	r.HandleFunc("/GetContactByPhoneNumber", getContactByPhoneNumber).Methods("POST")
-	r.HandleFunc("/GetMostRecentOpenCaseByContactId", getMostRecentOpenCaseByContactId).Methods("POST")
+	r.HandleFunc("/GetMostRecentOpenCaseByContactId", getMostRecentOpenCaseByContactID).Methods("POST")
 
 	// Start HTTP server
 	var server *http.Server
@@ -120,6 +98,8 @@ func main() {
 	<-interrupt
 }
 
+// getAccountByAccountNumber handles HTTP POSTs to /GetAccountByAccountNumber. It reads the request sent and returns
+// a response
 func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 	var err error
 
@@ -134,8 +114,58 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var resp = Account{
-		Account: AccountDetails{
+	/* Just an example, hardcode response here.  Sending the following response
+		{
+		    "Account": {
+	    	    "Id": "123",
+	        	"Name": "Ng Sze Min",
+		        "Number": "123",
+	    	    "EmailAddresses": {
+	        	    "EmailAddress": [
+	            	    {
+	                	    "EmailAddress": "szemin.ng@inin.com",
+	                    	"EmailType": 1
+		                }
+	    	        ]
+	        	},
+		        "PhoneNumbers": {
+	    	        "PhoneNumber": [
+	        	        {
+	            	        "Number": "+60327763333",
+	                	    "PhoneType": 1
+		                },
+	    	            {
+	        	            "Number": "+18002671364",
+	            	        "PhoneType": 2
+	                	}
+		            ]
+	    	    },
+	        	"Addresses": {
+	            	"Address": [
+	                	{
+	                    	"City": "Kuala Lumpur",
+		                    "Country": "Malaysia",
+	    	                "Line1": "Unit 9.1, Level 9, Menara Prestige",
+	        	            "Line2": "No. 1, Jalan Pinang",
+	            	        "PostalCode": "50450",
+	                	    "State": "FT",
+	                    	"Type": "MY"
+		                },
+	    	            {
+	        	            "City": "Indianapolis",
+	            	        "Country": "United States",
+	                	    "Line1": "7601 Interactive Way",
+	                    	"PostalCode": "46278",
+		                    "State": "IN",
+	    	                "Type": "US"
+	        	        }
+	            	]
+		        },
+	    	    "CustomAttribute": "Custom data here"
+		    }
+		}*/
+	var resp = AccountResponse{
+		Account: Account{
 			ID:     "123",
 			Name:   "Ng Sze Min",
 			Number: "123",
@@ -174,7 +204,7 @@ func getAccountByAccountNumber(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getAccountByContactId(w http.ResponseWriter, r *http.Request) {
+func getAccountByContactID(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 	fmt.Fprintln(w, http.StatusNotImplemented)
 }
@@ -189,7 +219,7 @@ func getContactByPhoneNumber(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, http.StatusNotImplemented)
 }
 
-func getMostRecentOpenCaseByContactId(w http.ResponseWriter, r *http.Request) {
+func getMostRecentOpenCaseByContactID(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 	fmt.Fprintln(w, http.StatusNotImplemented)
 }
