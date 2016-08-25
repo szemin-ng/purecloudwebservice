@@ -27,6 +27,23 @@ type Account struct {
 	CustomAttribute string          `json:"CustomAttribute,omitempty"`
 }
 
+// ContactResponse contains contact information sent back to PureCloud Web Services Data Dip Connector.
+// It follows the format in https://developer.mypurecloud.com/api/webservice-datadip/service-contracts.html
+type ContactResponse struct {
+	Contact Contact `json:"Contact"`
+}
+
+type Contact struct {
+	EmailAddresses  *EmailAddresses `json:"EmailAddresses,omitempty"`
+	FirstName       string          `json:"FirstName,omitempty"`
+	LastName        string          `json:"LastName,omitempty"`
+	FullName        string          `json:"FullName,omitempty"`
+	ID              string          `json:"Id,omitempty"`
+	PhoneNumbers    *PhoneNumbers   `json:"PhoneNumbers,omitempty`
+	Address         *Address        `json:"Address,omitempty"`
+	CustomAttribute string          `json:"CustomAttribute,omitempty"`
+}
+
 type Addresses struct {
 	Address []Address `json:"Address,omitempty"`
 }
@@ -65,6 +82,14 @@ type PhoneNumber struct {
 // It follows the format in https://developer.mypurecloud.com/api/webservice-datadip/service-contracts.html
 type AccountByAccountNumberRequest struct {
 	AccountNumber   string `json:"AccountNumber"`
+	CustomAttribute string `json:"CustomAttribute,omitempty"`
+}
+
+// ContactByPhoneNumberRequest is the request sent from PureCloud Web Services Data Dip Connector to this app to retrieve
+// contact information using a phone number to query
+// It follows the format in https://developer.mypurecloud.com/api/webservice-datadip/service-contracts.html
+type ContactByPhoneNumberRequest struct {
+	PhoneNumber     string `json:"PhoneNumber"`
 	CustomAttribute string `json:"CustomAttribute,omitempty"`
 }
 
@@ -214,9 +239,112 @@ func getAccountByPhoneNumber(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, http.StatusNotImplemented)
 }
 
+// getContactByPhoneNumber handles HTTP POSTs to /GetContactByPhoneNumber. It reads the request sent and returns
+// a response
 func getContactByPhoneNumber(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-	fmt.Fprintln(w, http.StatusNotImplemented)
+	var err error
+
+	log.Println("Processing /GetContactByPhoneNumber...")
+
+	// Retrieve request body
+	var req ContactByPhoneNumberRequest
+	if err = json.NewDecoder(r.Body).Decode(&req); err != nil {
+		log.Printf("Failed to decode JSON request body: %s\n", err)
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintln(w, err)
+		return
+	}
+
+	/* Just an example, hardcode response here.  Sending the following response
+		{
+		    "Contact": {
+	    	    "EmailAddresses": {
+	        	    "EmailAddress": [
+	            	    {
+	                	    "EmailAddress": "szemin.ng@inin.com",
+	                    	"EmailType": 1
+		                }
+	    	        ]
+	        	},
+	    	    "Id": "123",
+	        	"Name": "Ng Sze Min",
+		        "Number": "123",
+		        "PhoneNumbers": {
+	    	        "PhoneNumber": [
+	        	        {
+	            	        "Number": "+60327763333",
+	                	    "PhoneType": 1
+		                },
+	    	            {
+	        	            "Number": "+18002671364",
+	            	        "PhoneType": 2
+	                	}
+		            ]
+	    	    },
+	        	"Addresses": {
+	            	"Address": [
+	                	{
+	                    	"City": "Kuala Lumpur",
+		                    "Country": "Malaysia",
+	    	                "Line1": "Unit 9.1, Level 9, Menara Prestige",
+	        	            "Line2": "No. 1, Jalan Pinang",
+	            	        "PostalCode": "50450",
+	                	    "State": "FT",
+	                    	"Type": "MY"
+		                },
+	    	            {
+	        	            "City": "Indianapolis",
+	            	        "Country": "United States",
+	                	    "Line1": "7601 Interactive Way",
+	                    	"PostalCode": "46278",
+		                    "State": "IN",
+	    	                "Type": "US"
+	        	        }
+	            	]
+		        },
+	    	    "CustomAttribute": "Custom data here"
+		    }
+		}*/
+	var resp = ContactResponse{
+		Contact: Contact{
+			EmailAddresses: &EmailAddresses{
+				EmailAddress: []EmailAddress{
+					EmailAddress{EmailAddress: "szemin.ng@inin.com", EmailType: 1},
+				},
+			},
+			FirstName: "Sze Min",
+			LastName:  "Ng",
+			FullName:  "Ng Sze Min",
+			ID:        "1234567890",
+			PhoneNumbers: &PhoneNumbers{
+				PhoneNumbers: []PhoneNumber{
+					PhoneNumber{Number: "+60327763333", PhoneType: 1},
+					PhoneNumber{Number: "+60327763324", PhoneType: 2},
+				},
+			},
+			Address: &Address{
+				City:       "Kuala Lumpur",
+				Country:    "Malaysia",
+				Line1:      "Unit 9.1, Level 9, Menara Prestige",
+				Line2:      "No. 1, Jalan Pinang",
+				PostalCode: "50450",
+				State:      "FT",
+			},
+		},
+	}
+
+	log.Println("Sending reply from /GetContactByPhoneNumber...")
+
+	// Write reply
+	var b []byte
+	if b, err = json.Marshal(resp); err != nil {
+		panic(err)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	if _, err = w.Write(b); err != nil {
+		log.Printf("Failed to write: %s\n", err)
+	}
 }
 
 func getMostRecentOpenCaseByContactID(w http.ResponseWriter, r *http.Request) {
