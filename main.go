@@ -256,55 +256,42 @@ func getContactByPhoneNumber(w http.ResponseWriter, r *http.Request) {
 	}
 
 	/* Just an example, hardcode response here.  Sending the following response
-		{
-		    "Contact": {
-	    	    "EmailAddresses": {
-	        	    "EmailAddress": [
-	            	    {
-	                	    "EmailAddress": "szemin.ng@inin.com",
-	                    	"EmailType": 1
-		                }
-	    	        ]
-	        	},
-	    	    "Id": "123",
-	        	"Name": "Ng Sze Min",
-		        "Number": "123",
-		        "PhoneNumbers": {
-	    	        "PhoneNumber": [
-	        	        {
-	            	        "Number": "+60327763333",
-	                	    "PhoneType": 1
-		                },
-	    	            {
-	        	            "Number": "+18002671364",
-	            	        "PhoneType": 2
-	                	}
-		            ]
-	    	    },
-	        	"Addresses": {
-	            	"Address": [
-	                	{
-	                    	"City": "Kuala Lumpur",
-		                    "Country": "Malaysia",
-	    	                "Line1": "Unit 9.1, Level 9, Menara Prestige",
-	        	            "Line2": "No. 1, Jalan Pinang",
-	            	        "PostalCode": "50450",
-	                	    "State": "FT",
-	                    	"Type": "MY"
-		                },
-	    	            {
-	        	            "City": "Indianapolis",
-	            	        "Country": "United States",
-	                	    "Line1": "7601 Interactive Way",
-	                    	"PostalCode": "46278",
-		                    "State": "IN",
-	    	                "Type": "US"
-	        	        }
-	            	]
-		        },
-	    	    "CustomAttribute": "Custom data here"
-		    }
-		}*/
+	{
+	  "Contact": {
+	    "EmailAddresses": {
+	      "EmailAddress": [
+	        {
+	          "EmailAddress": "szemin.ng@inin.com",
+	          "EmailType": 1
+	        }
+	      ]
+	    },
+	    "FirstName": "Sze Min",
+	    "LastName": "Ng",
+	    "FullName": "Ng Sze Min",
+	    "Id": "1234567890",
+	    "PhoneNumbers": {
+	      "PhoneNumber": [
+	        {
+	          "Number": "+60327763333",
+	          "PhoneType": 1
+	        },
+	        {
+	          "Number": "+60327763324",
+	          "PhoneType": 2
+	        }
+	      ]
+	    },
+	    "Address": {
+	      "City": "Kuala Lumpur",
+	      "Country": "Malaysia",
+	      "Line1": "Unit 9.1, Level 9, Menara Prestige",
+	      "Line2": "No. 1, Jalan Pinang",
+	      "PostalCode": "50450",
+	      "State": "FT"
+	    }
+	  }
+	}*/
 	var resp = ContactResponse{
 		Contact: Contact{
 			EmailAddresses: &EmailAddresses{
